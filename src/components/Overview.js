@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { TransactionPill } from "./TransactionPill";
 import classNames from "classnames";
+
+import { TransactionPill } from "./TransactionPill";
 import Popup from "./Popup";
 
 export function OverView() {
@@ -20,10 +21,6 @@ export function OverView() {
     "Medical",
     "Dept",
   ];
-
-  useEffect(() => {
-    console.log({ transaction });
-  }, [transaction]);
 
   const handleDescription = (event) => {
     const currentDescription = event.target.value;
@@ -58,12 +55,11 @@ export function OverView() {
     }
   };
 
-  const handleClear = () => {
+  const handleOpenPopup = () => {
     setIsPopUpOpen(true);
-    setIsShowTransaction(false);
   };
 
-  const totalPrice = transaction.reduce((cost, curr) => {
+  const totalIncome = transaction.reduce((cost, curr) => {
     if (curr.description === "Income") {
       return Number(cost) + Number(curr.amount);
     }
@@ -75,9 +71,9 @@ export function OverView() {
       return Number(cost) + Number(curr.amount);
     }
     return cost;
-  }, "");
+  }, "0");
 
-  const balance = totalPrice - totalExpense;
+  const balance = totalIncome - totalExpense;
 
   const isLowBalance = balance <= 0;
   const correctBalance = Math.abs(balance);
@@ -86,6 +82,11 @@ export function OverView() {
     "w-full h-[5vh] shadow-md flex justify-between flex-row px-4 items-center rounded-md text-text",
     { "bg-darkRed": isLowBalance, "bg-darkGreen": !isLowBalance },
   );
+
+  function handleClearTransaction() {
+    setTransaction([]);
+    setIsPopUpOpen(false);
+  }
 
   return (
     <div className="flex items-center flex-col gap-1 relative">
@@ -162,7 +163,7 @@ export function OverView() {
           type="button"
           className="bg-background px-5 py-2 rounded-[25px] shadow-2xl text-sm font-bold w-[70%] text-primary"
           style={{ WebkitTapHighlightColor: "transparent" }}
-          onClick={handleClear}
+          onClick={handleOpenPopup}
         >
           Clear Transaction
         </button>
@@ -170,7 +171,7 @@ export function OverView() {
       <div className=" bg-secondary h-[19vh] w-[90vw] flex flex-col px-4 gap-2 rounded-b-md items-center pt-4">
         <div className="w-full bg-background h-[4vh] shadow-md rounded-sm flex justify-between flex-row pt-2 px-4 items-center text-text">
           <p>Total Income</p>
-          <p className="text-base font-semibold">₹{totalPrice}</p>
+          <p className="text-base font-semibold">₹{totalIncome}</p>
         </div>
         <div className="w-full bg-background h-[4vh] shadow-md rounded-sm flex justify-between flex-row px-4 items-center text-text">
           <p>Total Expense</p>
@@ -181,7 +182,14 @@ export function OverView() {
           <p className="text-lg font-semibold">₹{correctBalance}</p>
         </div>
       </div>
-      {isPopUpOpen && <Popup onClose={()=>setIsPopUpOpen(false)}/>}
+      {transaction && transaction.length && isPopUpOpen && (
+        <Popup
+          onClose={() => setIsPopUpOpen(false)}
+          onProceed={handleClearTransaction}
+          text={"Are you sure to clear all transaction"}
+          isDarkBackground
+        />
+      )}
     </div>
   );
 }
