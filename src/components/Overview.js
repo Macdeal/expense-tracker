@@ -161,7 +161,7 @@ export function OverView() {
         </div>
         <button
           type="button"
-          className="bg-background px-5 py-2 rounded-[25px] shadow-2xl text-sm font-bold w-[70%] text-primary"
+          className="bg-darkRed px-5 py-2 rounded-[25px] shadow-2xl text-sm font-bold w-[70%] text-primary"
           style={{ WebkitTapHighlightColor: "transparent" }}
           onClick={handleOpenPopup}
         >
