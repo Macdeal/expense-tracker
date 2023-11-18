@@ -1,5 +1,5 @@
 import React from "react";
-import { OverView } from "./components/Overview";
+import { OverView } from "./pages/Overview";
 
 function App() {
   return (
