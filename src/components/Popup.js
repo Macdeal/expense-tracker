@@ -1,13 +1,13 @@
-import classNames from 'classnames';
-import React from 'react';
+import classNames from "classnames";
+import React from "react";
 
-function Popup({ isDarkBackground,onProceed, onClose}) {
+function Popup({ isDarkBackground, onProceed, onClose, text }) {
   const popupContentWrapperStyle = classNames(
-    'w-[88%] h-fit flex items-center justify-center py-10 px-5 bg-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-larger shadow-xl flex-col',
+    "w-[88%] h-fit flex items-center justify-center py-10 px-5 bg-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-larger shadow-xl flex-col",
     {
-      'border-[5px] border-white border-solid bg-metallic-blue':
+      "border-2 rounded-xl border-background border-solid":
         isDarkBackground,
-    }
+    },
   );
 
   return (
@@ -19,10 +19,20 @@ function Popup({ isDarkBackground,onProceed, onClose}) {
         data-testid="popup-content-wrapper"
         className={popupContentWrapperStyle}
       >
-        <div>Are you sure?</div>
-        <div className='flex gap-5 mt-5'>
-            <button className='bg-background text-buttonText px-5 rounded-md' onClick={onProceed}>Yes</button>
-            <button className='bg-background text-buttonText px-5 rounded-md'onClick={onClose}>No</button>
+        <div>{text}</div>
+        <div className="flex gap-5 mt-5">
+          <button
+            className="bg-darkRed text-buttonText px-5 rounded-md"
+            onClick={onProceed}
+          >
+            Yes
+          </button>
+          <button
+            className="bg-background text-buttonText px-5 rounded-md"
+            onClick={onClose}
+          >
+            No
+          </button>
         </div>
       </div>
     </div>
@@ -33,6 +43,4 @@ Popup.defaultProps = {
   isDarkBackground: false,
 };
 
-export default Popup
-
-
+export default Popup;
